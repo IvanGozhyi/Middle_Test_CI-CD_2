@@ -1,0 +1,38 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          python manage.py test
+        env:
+          SECRET_KEY: 'ci-cd-test-secret-key-123' 
+          DEBUG: 'True'
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.3.6
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
