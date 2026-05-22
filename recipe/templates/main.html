@@ -3,6 +3,8 @@
 {% block content %}
   <div class="container">
     <h1 class="my-4">Welcome to the Recipe App</h1>
+      <a href="{% url 'recipe:category_list' %}" class="btn btn-primary">View All Categories</a>
+
     <h2>Latest Recipes</h2>
 
     {% for recipe in recipes %}
