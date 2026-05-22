@@ -2,21 +2,29 @@
 
 {% block content %}
   <div class="container">
-    <h1>Welcome to the Recipe App</h1>
+    <h1 class="my-4">Welcome to the Recipe App</h1>
+      <a href="{% url 'recipe:category_list' %}" class="btn btn-primary">View All Categories</a>
+
     <h2>Latest Recipes</h2>
+
     {% for recipe in recipes %}
-      <div class="card my-4">
+      <div class="card my-3 shadow-sm">
         <div class="card-body">
           <h5 class="card-title">{{ recipe.title }}</h5>
           <p class="card-text">{{ recipe.description }}</p>
           <p class="card-text"><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
           <p class="card-text"><strong>Instructions:</strong> {{ recipe.instructions }}</p>
-          <p class="card-text"><small class="text-muted">Created at: {{ recipe.created_at }}</small></p>
-          <p class="card-text"><small class="text-muted">Updated at: {{ recipe.updated_at }}</small></p>
+
+          <p class="card-text mt-3">
+            <small class="text-muted">Created at: {{ recipe.created_at|date:"d M Y, H:i" }}</small><br>
+            <small class="text-muted">Updated at: {{ recipe.updated_at|date:"d M Y, H:i" }}</small>
+          </p>
         </div>
       </div>
     {% empty %}
-      <p>No recipes found.</p>
+      <div class="alert alert-info mt-3" role="alert">
+        No recipes found.
+      </div>
     {% endfor %}
   </div>
 {% endblock %}
